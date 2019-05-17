@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from '../../services/api';
+import M from "materialize-css";
 import './main.css'
 
 // React possui métodos de ciclod de vida como: componentDidMount() -> Usado asism que o componente é criado
@@ -13,12 +14,16 @@ export default class Main extends Component {
         avatar_url: '',
         company: '',
         html_url: '',
-        user: ''
+        user: '',
+        following: '',
+        followers: '',
+        public_repos: ''
     }
 
     // Quando é uma funlão nativa utilizamos esta sintaxe
     componentDidMount(){
         this.loadGithub()
+        M.AutoInit();
     }
 
     // Quando é uma função criada pelo desenvolver utilizamos essa sintaxe
@@ -30,7 +35,10 @@ export default class Main extends Component {
             login: response.data.login,
             avatar_url: response.data.avatar_url,
             company: response.data.company,
-            html_url: response.data.html_url
+            html_url: response.data.html_url,
+            public_repos: response.data.public_repos,
+            followers: response.data.followers,
+            following: response.data.following
         })
     }
 
@@ -43,31 +51,36 @@ export default class Main extends Component {
             login: res.data.login,
             avatar_url: res.data.avatar_url,
             company: res.data.company,
-            html_url: res.data.html_url
+            html_url: res.data.html_url,
+            public_repos: res.data.public_repos,
+            followers: res.data.followers,
+            following: res.data.following
         })
     }
 
     render(){
         return (
             <div>
-                <div className="container corpo">
-                    <div className="row">
-                        <div className="col l6 s6">
+                <div className="container">
+                    <div className="row corpo">
+                        <div className="col l12 s12">
                             <h1>Github: {this.state.name}</h1>
                             <ul>
                                 <li>Login: {this.state.login}</li>
                                 <li>Empresa: {this.state.company}</li>
+                                <li>Quantidade de repositórios: {this.state.public_repos}</li>
+                                <li>Seguidores: {this.state.followers}</li>
+                                <li>Segue: {this.state.following}</li>
                                 <li>Saiba mais: {this.state.html_url}</li>
                             </ul>
-                            <p>Escreva o login do usuário que vc deseja analisar</p>
-                            <input type="text" className="inputUser row"></input>
-                            <br></br>
-                            <button onClick={this.findUser} className="waves-effect waves-light btn botao">Buscar</button>
                         </div>
-                        <div className="col l6 s6">
+                        <div className="col l4 s12">
                             <img src={this.state.avatar_url}></img>
                         </div>
                     </div>
+                    <input type="text" placeholder="Buscar usuário" className="inputUser row"></input>
+                    <br></br>
+                    <button onClick={this.findUser} className="waves-effect waves-light btn botao">Buscar</button>
                 </div>
             </div>
         )
